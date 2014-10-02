@@ -1,4 +1,4 @@
-:Exit
+##Exit
 
 Exit provides a way to exit from a program while both running deferred
 functions and returning a non-zero exit code.
@@ -12,7 +12,7 @@ Of course it's just an application of panic and recover but the package saves
 you writing that little bit of code for every command line program where you
 want this capability.
 
-::Status
+###Status
 
 The package is totally useful just as it is, but really it's more of a
 technique demonstration.  It's missing features you might want, like exiting
@@ -21,7 +21,7 @@ suppressing the time stamp on stderr to the terminal.
 
 Anyway, it's public domain, so copy and modify it according to your needs.
 
-::Example
+###Example
 
 ```
 package main
