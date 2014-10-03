@@ -4,9 +4,9 @@ Exit provides a way to exit from a program while both running deferred
 functions and returning a non-zero exit code.
 
 Deferred functions are great for resource clean up.  os.Exit exits a program
-immediately with an exit code.  This package provides a simple way to exit a
-program immediately with an exit code, but also run the deferred functions
-on the way out.
+immediately with an exit code, but doesn't run your deferred functions.
+This package provides a simple way to do both, exit a program immediately
+with an exit code, but also run the deferred functions on the way out.
 
 Of course it's just an application of panic and recover but the package saves
 you writing that little bit of code for every command line program where you
@@ -49,16 +49,8 @@ func f() {
 ```
 
 ```
-$ go run example.go
-f attempt
-f cleanup
-Fatal error in f
-exit status 1
-```
-
-```
 $ go build example.go
-$ ./example.go 2>log
+$ ./example 2>log
 f attempt
 f cleanup
 
