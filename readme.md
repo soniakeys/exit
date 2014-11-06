@@ -60,3 +60,8 @@ $ echo $?
 $ cat log
 2014/10/02 20:03:59 Fatal error in f
 ```
+
+###See also
+
+Similar package at https://github.com/youtube/vitess/tree/master/go/exit
+
