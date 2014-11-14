@@ -1,4 +1,4 @@
-// Public domain 2014.
+// Public domain 2014, author: Sonia Keys.
 
 // Exit provides a way to exit from a program that runs deferred functions,
 // logs a message to stderr, and then exits with an operating system exit code.
@@ -14,7 +14,7 @@
 //   )
 //
 //   func main() {
-//     defer exit.Exit() // do this once at the beginning of the program
+//     defer exit.Handler() // do this once at the beginning of the program
 //     f()
 //     fmt.Println("f returned")
 //   }
@@ -33,34 +33,73 @@
 package exit
 
 import (
-	"golang.org/x/crypto/ssh/terminal"
+	"fmt"
 	"log"
 	"os"
+
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 type fatal struct {
-	err interface{}
+	code int
+	msg  string
 }
 
-// Exit is the fatal error handler.  Defer at the start of main().
-func Exit() {
-	if err := recover(); err != nil {
-		if f, ok := err.(fatal); ok {
-			if terminal.IsTerminal(int(os.Stderr.Fd())) {
-				log.SetFlags(0)
-			}
-			log.Fatal(f.err)
-		}
+// Handler is the fatal error handler.  Defer at the start of main() before
+// calling any of Code, Log, Logf, CodeLog, or CodeLogf.
+//
+// Handler handles paincs originating from these functions by logging messages
+// with the standard logger of the log package and then exiting
+// with an exit code.
+//
+// By default, output of the standard logger goes to stderr.
+// If stderr is going to a terminal, Handler first sets logging flags to 0
+// to suppress the date and time stamp.  In the case where stderr is
+// redirected to a file for example, Handler does not reset the flags.
+func Handler() {
+	err := recover()
+	if err == nil {
+		return
+	}
+	f, ok := err.(fatal)
+	if !ok {
 		panic(err)
 	}
+	if f.msg > "\n" {
+		if terminal.IsTerminal(int(os.Stderr.Fd())) {
+			log.SetFlags(0)
+		}
+		log.Print(f.msg)
+	}
+	os.Exit(f.code)
 }
 
-// Log exits the program, first calling deferred functions, then calling
-// log.Fatal(err), then exiting with an exit code of 1.
-//
-// If stderr is going to the terminal, logging flags are set to 0 to suppress
-// the date and time stamp.  When stderr is redirected, err is logged with
-// the standard logging flags.
-func Log(err interface{}) {
-	panic(fatal{err})
+// Code calls any deferred functions, then exits the program with the given
+// exit code.
+func Code(code int) {
+	panic(fatal{1, ""})
+}
+
+// CodeLog calls any deferred functions, logs a message as with log.Println,
+// then exits the program with the given exit code.
+func CodeLog(code int, logArgs ...interface{}) {
+	panic(fatal{code, fmt.Sprintln(logArgs...)})
+}
+
+// CodeLogf calls any deferred functions, logs a message as with log.Printf,
+// then exits the program with the given exit code.
+func CodeLogf(code int, logFormat string, logArgs ...interface{}) {
+	panic(fatal{code, fmt.Sprintf(logFormat, logArgs...)})
+}
+
+// Log calls any deferred functions, logs a message as with log.Println,
+// then exits the program with an exit code of 1.
+func Log(args ...interface{}) {
+	panic(fatal{1, fmt.Sprintln(args...)})
+}
+
+// Logf calls any deferred functions, logs a message as with log.Printf,
+// then exits the program with an exit code of 1.
+func Logf(format string, args ...interface{}) {
+	panic(fatal{1, fmt.Sprintf(format, args...)})
 }

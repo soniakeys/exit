@@ -1,4 +1,4 @@
-// Public domain 2014.
+// Public domain 2014, author: Sonia Keys.
 
 package main
 
@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	defer exit.Exit() // do this once at the beginning of the program
+	defer exit.Handler() // do this once at the beginning of the program
 	f()
 	fmt.Println("f returned")
 }

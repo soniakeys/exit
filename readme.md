@@ -12,15 +12,6 @@ Of course it's just an application of panic and recover but the package saves
 you writing that little bit of code for every command line program where you
 want this capability.
 
-###Status
-
-The package is totally useful just as it is, but really it's more of a
-technique demonstration.  It's missing features you might want, like exiting
-with a given exit code instead of always just 1.  It also has a fluff feature,
-suppressing the time stamp on stderr to the terminal.
-
-Anyway, it's public domain, so copy and modify it according to your needs.
-
 ###Example
 
 ```
@@ -33,7 +24,7 @@ import (
 )
 
 func main() {
-  defer exit.Exit() // do this once at the beginning of the program
+  defer exit.Handler() // do this once at the beginning of the program
   f()
   fmt.Println("f returned")
 }
