@@ -3,6 +3,8 @@
 Exit provides a way to exit from a program while both running deferred
 functions and returning a non-zero exit code.
 
+[![GoDoc](https://godoc.org/github.com/soniakeys/exit?status.svg)](https://godoc.org/github.com/soniakeys/exit) [![status](https://sourcegraph.com/api/repos/github.com/soniakeys/exit/.badges/status.png)](https://sourcegraph.com/github.com/soniakeys/exit) [![Go Walker](http://gowalker.org/api/v1/badge)](https://gowalker.org/github.com/soniakeys/exit) [![GoSearch](http://go-search.org/badge?id=github.com%2Fsoniakeys%2Fexit)](http://go-search.org/view?id=github.com%2Fsoniakeys%2Fexit)
+
 Deferred functions are great for resource clean up.  os.Exit exits a program
 immediately with an exit code, but doesn't run your deferred functions.
 This package provides a simple way to do both, exit a program immediately
