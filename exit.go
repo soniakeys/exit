@@ -65,7 +65,7 @@ type msg struct {
 // an exit code.
 //
 // There are a couple of frills.  Empty messages are not logged; the program
-// simply exits with the specifed code.  With non-empty messages, if a logger
+// simply exits with the specified code.  With non-empty messages, if a logger
 // is not specified and stderr seems to be directed to a terminal, Handler sets
 // logging flags 0 to suppress the usual date and time stamp.
 func Handler() {
