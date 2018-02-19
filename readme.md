@@ -1,4 +1,4 @@
-##Exit
+# Exit
 
 Exit provides a way to exit from a program while both running deferred
 functions and returning a non-zero exit code.
@@ -14,7 +14,7 @@ Of course it's just an application of panic and recover but the package saves
 you writing that little bit of code for every command line program where you
 want this capability.
 
-###Example
+## Example
 
 ```
 package main
@@ -54,7 +54,7 @@ $ cat log
 2014/10/02 20:03:59 Fatal error in f
 ```
 
-###See also
+## See also
 
 Similar package at https://github.com/youtube/vitess/tree/master/go/exit
 
